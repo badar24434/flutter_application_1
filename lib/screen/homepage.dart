@@ -1,27 +1,35 @@
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(const MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.deepPurple,
-        scaffoldBackgroundColor: Colors.grey[50],
-      ),
-      home: const HomeScreen(),
-    );
-  }
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+class _HomeScreenState extends State<HomeScreen> {
+  int _selectedIndex = 0;
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+    // Navigate based on bottom navigation bar selection
+    switch (index) {
+      case 0:
+        // Already on homepage
+        break;
+      case 1:
+        Navigator.pushReplacementNamed(context, '/projects');
+        break;
+      case 2:
+        Navigator.pushReplacementNamed(context, '/messages');
+        break;
+      case 3:
+        // Add profile route if needed
+        break;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -185,8 +193,9 @@ class HomeScreen extends StatelessWidget {
           BottomNavigationBarItem(icon: Icon(Icons.message), label: 'Messages'),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
         ],
-        currentIndex: 0,
+        currentIndex: _selectedIndex,
         selectedItemColor: Colors.deepPurple,
+        onTap: _onItemTapped,
       ),
     );
   }
